@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'//添加
 
 android {
     compileSdkVersion 23
@@ -22,4 +23,12 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.facebook.rebound:rebound:0.3.8'
+}
+
+publish {
+    userOrg = 'peng83508440'//bintray.com用户名
+    groupId = 'com.jpeng'//jcenter上的路径
+    artifactId = 'jpspringmenu'//项目名称
+    publishVersion = '1.0.0'//版本号
+    desc = 'Awesome Sliding which has bounce'
 }
