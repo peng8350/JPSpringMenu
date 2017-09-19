@@ -26,8 +26,6 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     public static final int DIRECTION_LEFT = 0;
     public static final int DIRECTION_RIGHT = 1;
 
-    // arcX:Beckinsale control X point
-    private float arcX;
     // endX:The dividing X between the content page and the menu page
     private float endX = 800;
     // point value when touch down
@@ -51,11 +49,11 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     private DisplayMetrics displayMetrics = new DisplayMetrics();
     private MenuView mMenuView;
     private ViewGroup mContent;
+    //Black mask View
     private View mFadeView;
     private ViewGroup mDecorView;
 
     private MenuListener menuListener;
-
 
     public SpringMenu(Context context, int layoutRes) {
         super(context);
@@ -65,10 +63,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         initData();
     }
 
-
     private void initData() {
         mIgnores = new ArrayList<>();
-        mDragoffset = (int) (0.2f * getScreenWidth());
+        mDragoffset = (int) (0.3f * getScreenWidth());
         setMenuWidth(0.75f);
     }
 
@@ -90,10 +87,8 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     /**
-     * =======================================
      * If the motion event was relative to the view
      * which in ignored view list,return true;
-     * =======================================
      */
     private boolean isInIgnoredView(MotionEvent ev) {
         Rect rect = new Rect();
@@ -106,10 +101,8 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     /**
-     * =======================================
      * make the Spring close Bouncing when the widget is still in
      * Bouncing
-     * =======================================
      */
     private void endSpring() {
         if (!mSpring.isAtRest()) {
@@ -118,17 +111,14 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     /**
-     * =======================================
      * Controls the drawing of Beckinsale curves when touching
      *
      * @param x The drag distance ratio which takes up endX
-     *          =======================================
      */
     private void drawArc(float x) {
         if (x < 0) {
             return;
         }
-        arcX = x;
         float nowValue = x / endX;
         if (!isOpen) {
             mSpring.setCurrentValue(nowValue >= 1f ? 0.99f : nowValue);
@@ -138,10 +128,8 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     /**
-     * =======================================
      * reset the menu state when user drag the menu but the drag distance
      * is smaller than the requirement
-     * =======================================
      */
     private void resumeMenu() {
         if (!isOpen) {
@@ -152,9 +140,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     /**
-     * =======================================
      * make menu bind up with the activity
-     * =======================================
      */
     public void attachToActivity(Activity act) {
         mDecorView.removeViewAt(0);
@@ -181,9 +167,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     /**
-     * =======================================
      * get the MainLayout in MenuView
-     * =======================================
      */
     public View getMenuView() {
         if (mMenuView != null) {
@@ -193,11 +177,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     /**
-     * =======================================
      * If there were some view you don't want reside menu
      * to intercept their touch event, you could add it to
      * ignored views.
-     * =======================================
      */
     public void addIgnoredView(View v) {
         mIgnores.add(v);
@@ -216,9 +198,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     /**
-     * =======================================
      * set menu layout's width
-     * =======================================
      */
     public void setMenuWidth(int width) {
         endX = width;
@@ -229,6 +209,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         menuListener = listener;
     }
 
+    /**
+     * If enable,It will make mContentView have a darker cell view when opening menu
+     */
     public void setFadeEnable(boolean enable) {
         mNeedFade = enable;
     }
@@ -248,34 +231,28 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     /**
-     * =======================================
      * change the Menu Scroll direction
      *
      * @param direction left or right
-     *                  =======================================
      */
     public void setDirection(int direction) {
         this.mDirection = direction;
         RelativeLayout.LayoutParams params = (LayoutParams) mMenuView.getLayoutParams();
         // This code can be replaced as removeRule to remove,but the api>= 17
-        params.addRule(direction==DIRECTION_LEFT?ALIGN_PARENT_RIGHT:ALIGN_PARENT_LEFT,0);
-        params.addRule(direction==DIRECTION_LEFT?ALIGN_PARENT_LEFT:ALIGN_PARENT_RIGHT);
+        params.addRule(direction == DIRECTION_LEFT ? ALIGN_PARENT_RIGHT : ALIGN_PARENT_LEFT, 0);
+        params.addRule(direction == DIRECTION_LEFT ? ALIGN_PARENT_LEFT : ALIGN_PARENT_RIGHT);
     }
 
     /**
-     * =======================================
      * set the bouncing power and speed,just SpringConfig
-     * =======================================
      */
     public void setMenuSpringConfig(SpringConfig config) {
         mSpring.setSpringConfig(config);
     }
 
     /**
-     * =======================================
      * This configuration affects the speed at
      * which child controls appear on the menu
-     * =======================================
      */
     public void setChildSpringConfig(SpringConfig config) {
         mMenuView.setAttachmentConfig(config);
@@ -349,13 +326,11 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 lastDownX = (int) ev.getRawX();
                 lastDownY = (int) ev.getRawY();
                 disableDrag = isInIgnoredView(ev) && !isOpen;
-
                 if (isOpen && (mDirection == DIRECTION_LEFT && lastDownX > endX || lastDownX < getWidth() - endX && mDirection == DIRECTION_RIGHT)) {
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-
                 int xOffset = (int) (ev.getRawX() - lastDownX);
                 int yOffset = (int) (ev.getRawY() - lastDownY);
                 if (!isDragging) {
@@ -368,16 +343,14 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                     drawArc(mDirection == DIRECTION_LEFT ? dis : -dis);
                     return true;
                 }
-
                 break;
             case MotionEvent.ACTION_UP:
-                arcX = 0;
                 // When the menu is opened, the menu closes if the user touches the content page
                 if (!isDragging && isOpen && (mDirection == DIRECTION_LEFT && lastDownX > endX || lastDownX < getWidth() - endX && mDirection == DIRECTION_RIGHT)) {
                     closeMenu();
                 } else if (isDragging) {
                     if (!isOpen) {
-                        if (mSpring.getCurrentValue() > 0.7f) {
+                        if (mSpring.getCurrentValue() > 0.55f) {
                             openMenu();
                         } else if (mSpring.getCurrentValue() > 0f) {
                             resumeMenu();
@@ -412,7 +385,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         return true;
     }
 
-    class MenuView extends FrameLayout {
+    private class MenuView extends FrameLayout {
         private Path mArcPath;
         // when menu is open,the value is false,else true,use to Intercept menu Touch
         private boolean disableTouch = true;
@@ -440,9 +413,8 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             }
         }
 
-        /*=======================================
+        /*
          * use to draw the Beckinsale curves when open menu (0f-2f)
-         *=======================================
          */
         private void updateByProgress(float progress) {
             mArcPath.reset();
@@ -489,8 +461,8 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             mSpringChain = SpringChain.create(20, 3, 10, 5);
             addSpringForChild(mLayout);
             List<Spring> springs = mSpringChain.getAllSprings();
-            for (int i = 0; i < springs.size(); i++) {
-                springs.get(i).setCurrentValue(1f);
+            for (Spring s:springs) {
+                s.setCurrentValue(1f);
             }
             toggleItems(false);
             mArcPath = new Path();
@@ -509,7 +481,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             }
         }
 
-        public void setAttachmentConfig(SpringConfig config) {
+        private void setAttachmentConfig(SpringConfig config) {
             List<Spring> springs = mSpringChain.getAllSprings();
             for (Spring s : springs) {
                 s.setSpringConfig(config);
@@ -517,15 +489,13 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         }
 
         /**
-         * =======================================
          * make the child widgets of menuLayout showing or hiding
-         * =======================================
          */
-        public void toggleItems(boolean show) {
+        private void toggleItems(boolean show) {
             mSpringChain.setControlSpringIndex(0).getControlSpring().setEndValue(show ? 1f : 0f);
         }
 
-        public ViewGroup getLayout() {
+        private ViewGroup getLayout() {
             return mLayout;
         }
 
@@ -539,14 +509,12 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             return disableTouch || isDragging;
         }
 
-        public void setDisableTouch(boolean disableTouch) {
+        private void setDisableTouch(boolean disableTouch) {
             this.disableTouch = disableTouch;
         }
 
         /**
-         * =======================================
          * Clipping Region from the path
-         * =======================================
          */
         @Override
         protected void dispatchDraw(Canvas canvas) {
