@@ -167,7 +167,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     public void openMenu() {
         mMenuView.setDisableTouch(false);
         mSpring.setEndValue(2f);
-//        mMenuView.toggleItems(true);
+        mMenuView.toggleItems(true);
         if (mNeedFade)
             mFadeView.setVisibility(VISIBLE);
     }
@@ -175,7 +175,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     public void closeMenu() {
         mMenuView.setDisableTouch(true);
         mSpring.setEndValue(0f);
-//        mMenuView.toggleItems(false);
+        mMenuView.toggleItems(false);
         if (mNeedFade)
             mFadeView.setVisibility(GONE);
     }
@@ -377,7 +377,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                     closeMenu();
                 } else if (isDragging) {
                     if (!isOpen) {
-                        if (mSpring.getCurrentValue() > 0.5f) {
+                        if (mSpring.getCurrentValue() > 0.7f) {
                             openMenu();
                         } else if (mSpring.getCurrentValue() > 0f) {
                             resumeMenu();
@@ -492,7 +492,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             for (int i = 0; i < springs.size(); i++) {
                 springs.get(i).setCurrentValue(1f);
             }
-//            toggleItems(false);
+            toggleItems(false);
             mArcPath = new Path();
         }
 

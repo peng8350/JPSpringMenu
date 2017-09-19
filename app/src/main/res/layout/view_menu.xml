@@ -42,7 +42,7 @@
         android:layout_height="30dp"
         android:id="@+id/imageButton"
         android:src="@mipmap/setting"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginLeft="20dp"
         android:layout_alignParentBottom="true"
         />
@@ -53,7 +53,7 @@
         android:text="设置"
         android:id="@+id/textView"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center"
         android:textSize="15sp"
         android:textColor="#fff"
