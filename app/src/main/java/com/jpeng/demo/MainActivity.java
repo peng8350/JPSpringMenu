@@ -39,6 +39,7 @@ public class MainActivity extends Activity implements MenuListener {
             @Override
             public void onClick(View v) {
                 menu.setDirection(SpringMenu.DIRECTION_LEFT);
+                menu.openMenu();
             }
         });
         mTitleBar.addAction(new TitleBar.Action() {

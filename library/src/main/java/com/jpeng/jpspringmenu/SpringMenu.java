@@ -167,7 +167,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     public void openMenu() {
         mMenuView.setDisableTouch(false);
         mSpring.setEndValue(2f);
-        mMenuView.toggleItems(true);
+//        mMenuView.toggleItems(true);
         if (mNeedFade)
             mFadeView.setVisibility(VISIBLE);
     }
@@ -175,7 +175,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     public void closeMenu() {
         mMenuView.setDisableTouch(true);
         mSpring.setEndValue(0f);
-        mMenuView.toggleItems(false);
+//        mMenuView.toggleItems(false);
         if (mNeedFade)
             mFadeView.setVisibility(GONE);
     }
@@ -256,7 +256,10 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
      */
     public void setDirection(int direction) {
         this.mDirection = direction;
-        ((RelativeLayout.LayoutParams) mMenuView.getLayoutParams()).addRule(mDirection == DIRECTION_RIGHT ? ALIGN_PARENT_RIGHT : ALIGN_LEFT);
+        RelativeLayout.LayoutParams params = (LayoutParams) mMenuView.getLayoutParams();
+        // This code can be replaced as removeRule to remove,but the api>= 17
+        params.addRule(direction==DIRECTION_LEFT?ALIGN_PARENT_RIGHT:ALIGN_PARENT_LEFT,0);
+        params.addRule(direction==DIRECTION_LEFT?ALIGN_PARENT_LEFT:ALIGN_PARENT_RIGHT);
     }
 
     /**
@@ -426,15 +429,14 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 setClipToOutline(true);
                 setOutlineProvider(new BgOutLineProvider());
             }
-
         }
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         class BgOutLineProvider extends ViewOutlineProvider {
             @Override
             public void getOutline(View view, Outline outline) {
-                if(mArcPath.isConvex())
-                outline.setConvexPath(mArcPath);
+                if (mArcPath.isConvex())
+                    outline.setConvexPath(mArcPath);
             }
         }
 
@@ -490,7 +492,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             for (int i = 0; i < springs.size(); i++) {
                 springs.get(i).setCurrentValue(1f);
             }
-            toggleItems(false);
+//            toggleItems(false);
             mArcPath = new Path();
         }
 
@@ -507,9 +509,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             }
         }
 
-        public void setAttachmentConfig(SpringConfig config){
+        public void setAttachmentConfig(SpringConfig config) {
             List<Spring> springs = mSpringChain.getAllSprings();
-            for(Spring s:springs){
+            for (Spring s : springs) {
                 s.setSpringConfig(config);
             }
         }
