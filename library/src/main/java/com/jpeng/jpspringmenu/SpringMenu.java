@@ -75,8 +75,8 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         mMenuView = new MenuView(getContext(), layoutRes);
         mFadeView = new View(context);
         mFadeView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mFadeView.setBackgroundColor(Color.argb(170, 0, 0, 0));
-        mFadeView.setVisibility(View.GONE);
+        mFadeView.setBackgroundColor(Color.argb(180,0,0,0));
+        mFadeView.setAlpha(0);
     }
 
     private void initSpring() {
@@ -154,16 +154,12 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         mMenuView.setDisableTouch(false);
         mSpring.setEndValue(2f);
         mMenuView.toggleItems(true);
-        if (mNeedFade)
-            mFadeView.setVisibility(VISIBLE);
     }
 
     public void closeMenu() {
         mMenuView.setDisableTouch(true);
         mSpring.setEndValue(0f);
         mMenuView.toggleItems(false);
-        if (mNeedFade)
-            mFadeView.setVisibility(GONE);
     }
 
     /**
@@ -421,6 +417,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             mArcPath.reset();
             float startX = mDirection == DIRECTION_LEFT ? 0 : getWidth();
             float progressX = endX * (progress - 1f);
+            if(progress>=0&&progress<=2&&mNeedFade){
+                mFadeView.setAlpha(progress/2);
+            }
             if (progress >= 1f) {
                 float realX = mDirection == DIRECTION_LEFT ? progressX : startX - progressX;
                 mArcPath.moveTo(startX, 0);
@@ -460,7 +459,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             addSpringForChild(mLayout);
             mSpringChain.setControlSpringIndex(0);
             List<Spring> springs = mSpringChain.getAllSprings();
-            for (Spring s:springs) {
+            for (Spring s : springs) {
                 s.setCurrentValue(1f);
             }
             toggleItems(false);
