@@ -25,6 +25,8 @@ public class MainActivity extends Activity implements MenuListener,
 
     RadioGroup mRgFade;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class MainActivity extends Activity implements MenuListener,
         mSpringMenu = new SpringMenu(this, R.layout.view_menu);
         mSpringMenu.setMenuListener(this);
         mSpringMenu.setFadeEnable(true);
-        mSpringMenu.setChildSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(181, 10));
+        mSpringMenu.setChildSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(20, 5));
         mSpringMenu.setDragOffset(0.4f);
         mSpringMenu.addIgnoredView(mFrictionBar
         );

@@ -241,6 +241,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         // This code can be replaced as removeRule to remove,but the api>= 17
         params.addRule(direction == DIRECTION_LEFT ? ALIGN_PARENT_RIGHT : ALIGN_PARENT_LEFT, 0);
         params.addRule(direction == DIRECTION_LEFT ? ALIGN_PARENT_LEFT : ALIGN_PARENT_RIGHT);
+        mMenuView.requestLayout();
     }
 
     /**
@@ -453,19 +454,20 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         }
 
         private void init(Context context, int layoutRes) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            }
             mLayout = (ViewGroup) LayoutInflater.from(context).inflate(layoutRes, null);
+            mSpringChain = SpringChain.create();
             addView(mLayout);
-            mSpringChain = SpringChain.create(20, 3, 10, 5);
             addSpringForChild(mLayout);
+            mSpringChain.setControlSpringIndex(0);
             List<Spring> springs = mSpringChain.getAllSprings();
             for (Spring s:springs) {
                 s.setCurrentValue(1f);
             }
             toggleItems(false);
             mArcPath = new Path();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
         }
 
         private void addSpringForChild(ViewGroup group) {
@@ -492,7 +494,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
          * make the child widgets of menuLayout showing or hiding
          */
         private void toggleItems(boolean show) {
-            mSpringChain.setControlSpringIndex(0).getControlSpring().setEndValue(show ? 1f : 0f);
+            mSpringChain.getControlSpring().setEndValue(show ? 1f : 0f);
         }
 
         private ViewGroup getLayout() {
