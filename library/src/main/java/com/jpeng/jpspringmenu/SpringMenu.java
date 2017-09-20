@@ -22,7 +22,6 @@ import java.util.List;
  * Description:
  */
 public class SpringMenu extends RelativeLayout implements SpringListener {
-
     public static final int DIRECTION_LEFT = 0;
     public static final int DIRECTION_RIGHT = 1;
 
@@ -428,9 +427,8 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 mArcPath.lineTo(startX, getHeight());
                 mContent.setTranslationX(mDirection == DIRECTION_LEFT ? progressX : -progressX);
             } else {
-                mArcPath.moveTo(startX, 0);
+                mArcPath.moveTo(startX,0);
                 if (isOpen) {
-
                     mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * progress : getScreenWidth() - endX * progress, getHeight() / 2, startX, getHeight());
                     if (progress <= 0f) {
                         disableRebound = true;

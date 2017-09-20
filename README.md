@@ -9,26 +9,50 @@ and this project combines the powerful animation elastic library called
 ![SpringMenu](https://github.com/peng8350/JPSpringMenu/blob/master/art/main.gif)
 <br>
 ### Usage
-1.Gradle 
+Gradle(JCenter) 
 ```
 dependencies {
     compile 'com.jpeng.jpspringmenu:$latestVersion'
 }
 ```
-2.in Activity init
+in Activity init
 ```
     // R.layout.view_menu is your custom menu Layout resourceId
     SpringMenu menu = new SpringMenu(this,R.layout.view_menu);
     
     // do something config for menu...
 ```
-3. Don't forget to Rewrite dispatchTouchEvent in Activity
+Don't forget to Rewrite dispatchTouchEvent in Activity
 ```
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
          return menu.dispatchTouchEvent(ev);
     }
 ```
+With SpringConfig, you can change the power and speed of the menu and child layout
+```
+    // Another way to construct SpringConfig is that fromBouncinessAndSpeed
+    mSpringMenu.setMenuSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(20,3));
+    mSpringMenu.setChildSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(20, 5));
+```
+If there are some conflicts with slider controls and menus, you can try 
+addIgnoreView to ignore them
+```
+    mSpringMenu.addIgnoreView(...);
+```
+The remaining part of the more important Api
+```
+     //Content Page dark effect
+     setFadeEnable(boolean);
+     
+     // distance of Allow the menu to begin dragging
+     setDragOffset(float);
+     
+     setMenuListener(MenuListener);
+     
+     setDirection(int direction);
+```
+
 
 ### Thanks
 [AndroidResideMenu](https://github.com/SpecialCyCi/AndroidResideMenu)

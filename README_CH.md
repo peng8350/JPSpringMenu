@@ -7,25 +7,47 @@ SpringMenu是一款滑动菜单,类似AndroidResidemenu,SlidingMenu,和其他滑
 ![SpringMenu](https://github.com/peng8350/JPSpringMenu/blob/master/art/main.gif)
 <br>
 ### 用法
-1.Gradle 
+Gradle 
 ```
 dependencies {
     compile 'com.jpeng.jpspringmenu:$latestVersion'
 }
 ```
-2.在Activity内初始化Menu
+在Activity内初始化Menu
 ```
     // R.layout.view_menu 是你自定义的Menu View的资源ID
     SpringMenu menu = new SpringMenu(this,R.layout.view_menu);
     
     // 为菜单做各种各样的设置...
 ```
-3. 不要忘记在Activity重写dispatchTouchEvent
+不要忘记在Activity重写dispatchTouchEvent
 ```
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
          return menu.dispatchTouchEvent(ev);
     }
+```
+通过SpringConfig，你可以改变菜单和子布局的弹性速度和力量
+```
+    // 另一种方式来构建SpringConfig是frombouncinessandspeed
+    mSpringMenu.setMenuSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(20,3));
+    mSpringMenu.setChildSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(20, 5));
+```
+如果有滑块控件和菜单的一些冲突，你可以试试addignoreview忽略它们
+```
+    mSpringMenu.addIgnoreView(...);
+```
+剩余部分较为重要的Api
+```
+     // 内容页变暗的效果
+     setFadeEnable(boolean);
+     
+     // 允许菜单开始拖动的距离
+     setDragOffset(float);
+     
+     setMenuListener(MenuListener);
+     
+     setDirection(int direction);
 ```
 
 ### 感谢
