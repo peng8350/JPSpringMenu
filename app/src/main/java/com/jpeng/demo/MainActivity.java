@@ -85,7 +85,7 @@ public class MainActivity extends Activity implements MenuListener,
             }
         });
 
-        ListBean[] listBeen = {new ListBean(R.mipmap.menu5, "菜单选项一"), new ListBean(R.mipmap.menu1, "菜单选项二"), new ListBean(R.mipmap.menu2, "菜单选项三"), new ListBean(R.mipmap.menu3, "菜单选项四"), new ListBean(R.mipmap.menu4, "菜单选项五")};
+        ListBean[] listBeen = {new ListBean(R.mipmap.menu5, "Option One"), new ListBean(R.mipmap.menu1, "Option Two"), new ListBean(R.mipmap.menu2, "Option Three"), new ListBean(R.mipmap.menu3, "Option Four"), new ListBean(R.mipmap.menu4, "Option Five")};
         MyAdapter adapter = new MyAdapter(this, listBeen);
         ListView listView = (ListView) mSpringMenu.findViewById(R.id.test_listView);
         listView.setAdapter(adapter);

@@ -15,15 +15,16 @@
         />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="一名专注于学习各种Android技术的在校生..................................."
         android:id="@+id/textView2"
         android:layout_below="@+id/iv_head"
-        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:textSize="14sp"
         android:textColor="#fff"
-  />
+        android:text="E-Mail:peng8350@gmail.com"
+        />
 
     <ListView
         android:id="@+id/test_listView"
@@ -50,7 +51,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:text="设置"
+        android:text="Setting"
         android:id="@+id/textView"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"

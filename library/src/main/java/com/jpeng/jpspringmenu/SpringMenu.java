@@ -332,6 +332,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 if (!isDragging) {
                     if (yOffset > 25 || yOffset < -25 || xOffset > 25 || xOffset < -25) {
                         isDragging = true;
+                        ev.setAction(MotionEvent.ACTION_CANCEL);
                     }
                 } else {
                     endSpring();
