@@ -3,11 +3,11 @@ SpringMenu是一款滑动菜单,类似AndroidResidemenu,SlidingMenu,和其他滑
 最大的区别是:它提供的灵活性弹跳，结合了Facebook提供的强大动画库
 [Rebound](https://github.com/facebook/rebound) 
 
-### 效果图
+## Design Sketch
 ![SpringMenu](https://github.com/peng8350/JPSpringMenu/blob/master/art/main.gif)
 <br>
-### 用法
-Gradle 
+## Usage
+### Gradle 
 ```
 dependencies {
     compile 'com.jpeng.jpspringmenu:$latestVersion'
@@ -50,14 +50,14 @@ dependencies {
      setDirection(int direction);
 ```
 
-### 感谢
+## Thanks
 [AndroidResideMenu](https://github.com/SpecialCyCi/AndroidResideMenu)
 
-### 联系
+## Contact
 如果您发现错误或有一些建议，请随时与我联系。<br>
 我的电子邮箱:peng8350@gmail.com
 
-### License
+## License
 ```
 MIT License
 

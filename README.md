@@ -3,13 +3,13 @@ SpringMenu is a sliding menu, similar to AndroidResidemenu, SlidingMenu,
 The biggest difference between SpringMenu and other menus is that it gives flexibility bouncing, 
 and this project combines the powerful animation elastic library called 
 [Rebound](https://github.com/facebook/rebound) provided by Facebook<Br>
-### [中文文档](https://github.com/peng8350/JPSpringMenu/blob/master/README_CH.md)
+## [中文文档](https://github.com/peng8350/JPSpringMenu/blob/master/README_CH.md)
 
-### Design Sketch
+## Design Sketch
 ![SpringMenu](https://github.com/peng8350/JPSpringMenu/blob/master/art/main.gif)
 <br>
-### Usage
-Gradle(JCenter) 
+## Usage
+###Gradle 
 ```
 dependencies {
     compile 'com.jpeng.jpspringmenu:$latestVersion'
@@ -54,14 +54,14 @@ The remaining part of the more important Api
 ```
 
 
-### Thanks
+## Thanks
 [AndroidResideMenu](https://github.com/SpecialCyCi/AndroidResideMenu)
 
-### Contact
+## Contact
 If you find bugs or have some advices,please feel free to contact me.<br>
 My E-mail:peng8350@gmail.com
 
-### License
+## License
 ```
 MIT License
 
