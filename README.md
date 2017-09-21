@@ -57,6 +57,10 @@ The remaining part of the more important Api
 ### Thanks
 [AndroidResideMenu](https://github.com/SpecialCyCi/AndroidResideMenu)
 
+### Contact
+If you find bugs or have some advices,please feel free to contact me.<br>
+My E-mail:peng8350@gmail.com
+
 ### License
 ```
 MIT License

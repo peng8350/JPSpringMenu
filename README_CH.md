@@ -53,6 +53,10 @@ dependencies {
 ### 感谢
 [AndroidResideMenu](https://github.com/SpecialCyCi/AndroidResideMenu)
 
+### 联系
+如果您发现错误或有一些建议，请随时与我联系。<br>
+我的电子邮箱:peng8350@gmail.com
+
 ### License
 ```
 MIT License
