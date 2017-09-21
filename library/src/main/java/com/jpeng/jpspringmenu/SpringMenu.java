@@ -31,6 +31,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     private int lastDownX, lastDownY;
     // distance of enable menu drag
     private int mDragoffset;
+    private int arcDrawY;
     private int mDirection;
     // views which intercept touch events
     private List<View> mIgnores;
@@ -69,7 +70,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     private void initView(Context context, int layoutRes) {
-        mDecorView = (ViewGroup) ((Activity) context).getWindow().getDecorView();
+        mDecorView = (ViewGroup) ((Activity)context).getWindow().getDecorView();
         mContent = (ViewGroup) mDecorView.getChildAt(0);
         mMenuView = new MenuView(getContext(), layoutRes);
         mFadeView = new View(context);
@@ -275,6 +276,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
 
     @Override
     public void onSpringAtRest(Spring spring) {
+        arcDrawY = 0;
     }
 
     @Override
@@ -335,6 +337,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                         ev.setAction(MotionEvent.ACTION_CANCEL);
                     }
                 } else {
+                    arcDrawY = (int) ev.getRawY();
                     endSpring();
                     float dis = !isOpen ? ev.getRawX() - lastDownX : -ev.getRawX() + lastDownX;
                     drawArc(mDirection == DIRECTION_LEFT ? dis : -dis);
@@ -424,13 +427,13 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 float realX = mDirection == DIRECTION_LEFT ? progressX : startX - progressX;
                 mArcPath.moveTo(startX, 0);
                 mArcPath.lineTo(realX, 0);
-                mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX : startX - endX, getHeight() / 2, realX, getHeight());
+                mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX : startX - endX, arcDrawY==0?getHeight()/2:arcDrawY, realX, getHeight());
                 mArcPath.lineTo(startX, getHeight());
                 mContent.setTranslationX(mDirection == DIRECTION_LEFT ? progressX : -progressX);
             } else {
                 mArcPath.moveTo(startX,0);
                 if (isOpen) {
-                    mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * progress : getScreenWidth() - endX * progress, getHeight() / 2, startX, getHeight());
+                    mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * progress : getScreenWidth() - endX * progress, arcDrawY==0?getHeight()/2:arcDrawY, startX, getHeight());
                     if (progress <= 0f) {
                         disableRebound = true;
                     }
@@ -440,7 +443,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                         mContent.setTranslationX(0);
                     }
                 } else {
-                    mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * 2 * progress : startX - (endX * 2 * progress), getHeight() / 2, startX, getHeight());
+                    mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * 2 * progress : startX - (endX * 2 * progress), arcDrawY==0?getHeight()/2:arcDrawY, startX, getHeight());
                 }
             }
             mArcPath.close();

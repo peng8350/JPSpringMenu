@@ -104,12 +104,12 @@ public class MainActivity extends Activity implements MenuListener,
 
     @Override
     public void onMenuOpen() {
-        Toast.makeText(this, "菜单已经打开!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Menu is opened!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMenuClose() {
-        Toast.makeText(this, "菜单已经关闭!!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Menu is closed!!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
