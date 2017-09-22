@@ -42,7 +42,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     private boolean isDragging = false;
     private boolean isOpen;
     // use to disable Bouncing when closing the menu
-    private boolean disableRebound;
+    private boolean isBouncing;
     private boolean disableDrag;
     // main controller of bouncing animate
     private Spring mSpring;
@@ -277,6 +277,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     @Override
     public void onSpringAtRest(Spring spring) {
         arcDrawY = 0;
+        isBouncing = false;
     }
 
     @Override
@@ -430,14 +431,17 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX : startX - endX, arcDrawY==0?getHeight()/2:arcDrawY, realX, getHeight());
                 mArcPath.lineTo(startX, getHeight());
                 mContent.setTranslationX(mDirection == DIRECTION_LEFT ? progressX : -progressX);
+                if (progress >=2f) {
+                    isBouncing = true;
+                }
             } else {
                 mArcPath.moveTo(startX,0);
                 if (isOpen) {
                     mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * progress : getScreenWidth() - endX * progress, arcDrawY==0?getHeight()/2:arcDrawY, startX, getHeight());
                     if (progress <= 0f) {
-                        disableRebound = true;
+                        isBouncing = true;
                     }
-                    if (!disableRebound) {
+                    if (!isBouncing) {
                         mContent.setTranslationX(mDirection == DIRECTION_LEFT ? progressX : -progressX);
                     } else {
                         mContent.setTranslationX(0);
@@ -447,6 +451,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 }
             }
             mArcPath.close();
+            if(menuListener!=null){
+                menuListener.onProgressUpdate(progress,isBouncing);
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (mSpring.getCurrentValue() <= 2f)
                     invalidateOutline();

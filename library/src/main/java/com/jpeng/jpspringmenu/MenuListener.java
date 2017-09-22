@@ -19,4 +19,9 @@ public interface MenuListener {
      */
     void onMenuClose();
 
+    /**
+     * Menu Progress update CallBack
+     */
+    void onProgressUpdate(float value,boolean bouncing);
+
 }

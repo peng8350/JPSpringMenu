@@ -113,6 +113,11 @@ public class MainActivity extends Activity implements MenuListener,
     }
 
     @Override
+    public void onProgressUpdate(float value, boolean bouncing) {
+
+    }
+
+    @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
         if (checkedId == R.id.radioButton) {
             mSpringMenu.setFadeEnable(true);
