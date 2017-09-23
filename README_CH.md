@@ -37,6 +37,22 @@ dependencies {
 ```
     mSpringMenu.addIgnoreView(...);
 ```
+MenuListener可以用来监听菜单事件的变化,里面有三种回调方法:
+```
+    //打开后的回调
+    void onMenuOpen();
+    //关闭后的回调
+    void onMenuClose();
+    
+    /**
+     * 当菜单正在被打开或者被关闭时,这个方法将会被回调(包含拖动弧度)
+     * @value: 0f-2f,0f表示菜单关闭,2f则表示打开
+     * @bouncing: 这个布尔值用来判断菜单是否在反弹状态
+     * 当处于反弹状态时,这个值无限趋近于2f,否则就是0f
+     */
+    void onProgressUpdate(float value,boolean bouncing);
+
+```
 剩余部分较为重要的Api
 ```
      // 内容页变暗的效果
