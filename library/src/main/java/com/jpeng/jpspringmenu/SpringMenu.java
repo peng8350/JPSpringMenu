@@ -32,6 +32,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     // distance of enable menu drag
     private int mDragoffset;
     private int arcDrawY;
+    private int statusHeight;
     private int mDirection;
     // views which intercept touch events
     private List<View> mIgnores;
@@ -66,6 +67,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     private void initData() {
         mIgnores = new ArrayList<>();
         mDragoffset = (int) (0.3f * getScreenWidth());
+        statusHeight = getStatusBarHeight();
         setMenuWidth(0.75f);
     }
 
@@ -274,6 +276,15 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         return 0;
     }
 
+    private int getStatusBarHeight() {
+        Resources resources = getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
+    }
+
     @Override
     public void onSpringAtRest(Spring spring) {
         arcDrawY = 0;
@@ -338,7 +349,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                         ev.setAction(MotionEvent.ACTION_CANCEL);
                     }
                 } else {
-                    arcDrawY = (int) ev.getRawY();
+                    arcDrawY = (int) ev.getRawY() - statusHeight;
+                    // If arcDrawY < 0,It will make ArcPath is not Convex
+                    arcDrawY = arcDrawY<0?1:arcDrawY;
                     endSpring();
                     float dis = !isOpen ? ev.getRawX() - lastDownX : -ev.getRawX() + lastDownX;
                     drawArc(mDirection == DIRECTION_LEFT ? dis : -dis);
@@ -455,8 +468,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 menuListener.onProgressUpdate(progress,isBouncing);
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (mSpring.getCurrentValue() <= 2f)
+                if (mSpring.getCurrentValue() <= 2f) {
                     invalidateOutline();
+                }
             }
             postInvalidate();
         }
