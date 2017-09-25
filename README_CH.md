@@ -10,7 +10,7 @@ SpringMenu是一款滑动菜单,类似AndroidResidemenu,SlidingMenu,和其他滑
 ### Gradle 
 ```
 dependencies {
-    compile 'com.jpeng.jpspringmenu:$latestVersion'
+    compile 'com.jpeng:jpspringmenu:$latestVersion'
 }
 ```
 在Activity内初始化Menu

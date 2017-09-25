@@ -12,7 +12,7 @@ and this project combines the powerful animation elastic library called
 ### Gradle 
 ```
 dependencies {
-    compile 'com.jpeng.jpspringmenu:$latestVersion'
+    compile 'com.jpeng:jpspringmenu:$latestVersion'
 }
 ```
 in Activity init
