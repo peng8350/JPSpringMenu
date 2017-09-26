@@ -1,4 +1,8 @@
 # JPSpringMenu
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-JPSpringMenu-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6240)
+ [ ![Download](https://api.bintray.com/packages/peng83508440/maven/jpspringmenu/images/download.svg) ](https://bintray.com/peng83508440/maven/jpspringmenu/_latestVersion)
+[![apm](https://img.shields.io/apm/l/vim-mode.svg)]()
+<br>
 SpringMenu是一款滑动菜单,类似AndroidResidemenu,SlidingMenu,和其他滑动菜单之间
 最大的区别是:它提供的灵活性弹跳，结合了Facebook提供的强大动画库
 [Rebound](https://github.com/facebook/rebound) 
