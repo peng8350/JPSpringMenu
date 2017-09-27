@@ -72,12 +72,12 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
     }
 
     private void initView(Context context, int layoutRes) {
-        mDecorView = (ViewGroup) ((Activity)context).getWindow().getDecorView();
+        mDecorView = (ViewGroup) ((Activity) context).getWindow().getDecorView();
         mContent = (ViewGroup) mDecorView.getChildAt(0);
         mMenuView = new MenuView(getContext(), layoutRes);
         mFadeView = new View(context);
         mFadeView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mFadeView.setBackgroundColor(Color.argb(180,0,0,0));
+        mFadeView.setBackgroundColor(Color.argb(180, 0, 0, 0));
         mFadeView.setAlpha(0);
     }
 
@@ -351,7 +351,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 } else {
                     arcDrawY = (int) ev.getRawY() - statusHeight;
                     // If arcDrawY < 0,It will make ArcPath is not Convex
-                    arcDrawY = arcDrawY<0?1:arcDrawY;
+                    arcDrawY = arcDrawY < 0 ? 1 : arcDrawY;
                     endSpring();
                     float dis = !isOpen ? ev.getRawX() - lastDownX : -ev.getRawX() + lastDownX;
                     drawArc(mDirection == DIRECTION_LEFT ? dis : -dis);
@@ -433,39 +433,36 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         private void updateByProgress(float progress) {
             mArcPath.reset();
             float startX = mDirection == DIRECTION_LEFT ? 0 : getWidth();
-            float progressX = endX * (progress - 1f);
-            if(progress>=0&&progress<=2&&mNeedFade){
-                mFadeView.setAlpha(progress/2);
+
+            if (progress >= 0 && progress <= 2 && mNeedFade) {
+                mFadeView.setAlpha(progress / 2);
             }
             if (progress >= 1f) {
+                float progressX = endX * (progress - 1f);
                 float realX = mDirection == DIRECTION_LEFT ? progressX : startX - progressX;
                 mArcPath.moveTo(startX, 0);
                 mArcPath.lineTo(realX, 0);
-                mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX : startX - endX, arcDrawY==0?getHeight()/2:arcDrawY, realX, getHeight());
+                mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX : startX - endX, arcDrawY == 0 ? getHeight() / 2 : arcDrawY, realX, getHeight());
                 mArcPath.lineTo(startX, getHeight());
                 mContent.setTranslationX(mDirection == DIRECTION_LEFT ? progressX : -progressX);
-                if (progress >=2f) {
+                if (progress >= 2f) {
                     isBouncing = true;
                 }
             } else {
-                mArcPath.moveTo(startX,0);
+                mArcPath.moveTo(startX, 0);
                 if (isOpen) {
-                    mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * progress : getScreenWidth() - endX * progress, arcDrawY==0?getHeight()/2:arcDrawY, startX, getHeight());
+                    mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * progress : getScreenWidth() - endX * progress, arcDrawY == 0 ? getHeight() / 2 : arcDrawY, startX, getHeight());
                     if (progress <= 0f) {
                         isBouncing = true;
                     }
-                    if (!isBouncing) {
-                        mContent.setTranslationX(mDirection == DIRECTION_LEFT ? progressX : -progressX);
-                    } else {
-                        mContent.setTranslationX(0);
-                    }
+                    mContent.setTranslationX(0);
                 } else {
-                    mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * 2 * progress : startX - (endX * 2 * progress), arcDrawY==0?getHeight()/2:arcDrawY, startX, getHeight());
+                    mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * 2 * progress : startX - (endX * 2 * progress), arcDrawY == 0 ? getHeight() / 2 : arcDrawY, startX, getHeight());
                 }
             }
             mArcPath.close();
-            if(menuListener!=null){
-                menuListener.onProgressUpdate(progress,isBouncing);
+            if (menuListener != null) {
+                menuListener.onProgressUpdate(progress, isBouncing);
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (mSpring.getCurrentValue() <= 2f) {
