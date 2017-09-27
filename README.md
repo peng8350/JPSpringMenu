@@ -36,7 +36,10 @@ Don't forget to Rewrite dispatchTouchEvent in Activity
 ```
 With SpringConfig, you can change the power and speed of the menu and child layout
 ```
-    // Another way to construct SpringConfig is that fromBouncinessAndSpeed
+    /*Another way to construct SpringConfig is that fromBouncinessAndSpeed
+     friction : 2f -4f is the most suitable range,Too small,very fast,flexible.too big,but slow
+     friction can not be 0f,If the value is 0, it will bounce back indefinitely,According to the definition of rebound API
+    */
     mSpringMenu.setMenuSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(20,3));
     mSpringMenu.setChildSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(20, 5));
 ```

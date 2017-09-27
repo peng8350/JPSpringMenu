@@ -33,7 +33,12 @@ dependencies {
 ```
 通过SpringConfig，你可以改变菜单和子布局的弹性速度和力量
 ```
-    // 另一种方式来构建SpringConfig是frombouncinessandspeed
+    ```
+        /*
+        另一种方式来构建SpringConfig是frombouncinessandspeed
+         friction : 2f -4f 是合适值的范围,太小速度很快,弹性时间长,太大速度会很慢
+        friction的值一定不能为0,否则会无限反弹,根据rebound api的定义
+        */
     mSpringMenu.setMenuSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(20,3));
     mSpringMenu.setChildSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(20, 5));
 ```
