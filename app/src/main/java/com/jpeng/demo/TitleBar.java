@@ -257,6 +257,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
      */
     public void addActions(ActionList actionList) {
         int actions = actionList.size();
+
         for (int i = 0; i < actions; i++) {
             addAction(actionList.get(i));
         }

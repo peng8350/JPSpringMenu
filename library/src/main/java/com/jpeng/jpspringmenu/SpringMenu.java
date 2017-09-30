@@ -200,7 +200,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
      */
     public void setMenuWidth(int width) {
         endX = width;
-        mMenuView.getLayoutParams().width = width;
+        mMenuView.getLayoutParams().width = width + 100;
     }
 
     public void setMenuListener(MenuListener listener) {
@@ -221,6 +221,15 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
      */
     public void setDragOffset(float ratio) {
         mDragoffset = (int) (ratio * getScreenWidth());
+    }
+
+    /**
+     * set drag distance to open
+     *
+     * @param width menuwidth
+     */
+    public void setDragOffset(int width) {
+        mDragoffset = width;
     }
 
     public void setMenuWidth(float screenRatio) {
@@ -459,6 +468,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 } else {
                     mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * 2 * progress : startX - (endX * 2 * progress), arcDrawY == 0 ? getHeight() / 2 : arcDrawY, startX, getHeight());
                 }
+
             }
             mArcPath.close();
             if (menuListener != null) {
