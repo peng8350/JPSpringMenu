@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/peng8350/JPSpringMenu.svg?branch=master)](https://travis-ci.org/peng8350/JPSpringMenu)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-JPSpringMenu-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6240)
  [ ![Download](https://api.bintray.com/packages/peng83508440/maven/jpspringmenu/images/download.svg) ](https://bintray.com/peng83508440/maven/jpspringmenu/_latestVersion)
-[![apm](https://img.shields.io/apm/l/vim-mode.svg)]()
+[![apm](https://img.shields.io/apm/l/vim-mode.svg)](https://github.com/peng8350/JPSpringMenu/blob/master/LICENSE)
 <br>
 
 SpringMenu is a sliding menu, similar to AndroidResidemenu, SlidingMenu,
@@ -72,8 +72,6 @@ The remaining part of the more important Api
      
      // distance of Allow the menu to begin dragging
      setDragOffset(float);
-     
-     setMenuListener(MenuListener);
      
      setDirection(int direction);
 ```

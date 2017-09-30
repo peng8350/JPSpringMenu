@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/peng8350/JPSpringMenu.svg?branch=master)](https://travis-ci.org/peng8350/JPSpringMenu)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-JPSpringMenu-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6240)
  [ ![Download](https://api.bintray.com/packages/peng83508440/maven/jpspringmenu/images/download.svg) ](https://bintray.com/peng83508440/maven/jpspringmenu/_latestVersion)
-[![apm](https://img.shields.io/apm/l/vim-mode.svg)]()
+[![apm](https://img.shields.io/apm/l/vim-mode.svg)](https://github.com/peng8350/JPSpringMenu/blob/master/LICENSE)
 <br>
 SpringMenu是一款滑动菜单,类似AndroidResidemenu,SlidingMenu,和其他滑动菜单之间
 最大的区别是:它提供的灵活性弹跳，结合了Facebook提供的强大动画库
@@ -70,8 +70,6 @@ MenuListener可以用来监听菜单事件的变化,里面有三种回调方法:
      
      // 允许菜单开始拖动的距离
      setDragOffset(float);
-     
-     setMenuListener(MenuListener);
      
      setDirection(int direction);
 ```
