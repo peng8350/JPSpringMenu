@@ -16,41 +16,61 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Author: jpeng
+ * Author jpeng
  * Date: 17-9-10 下午1:41
  * E-mail:peng8350@gmail.com
  * Description:
  */
 public class SpringMenu extends RelativeLayout implements SpringListener {
+    private static final float START_VALUE=0f;
+    private static final float END_VALUE =2f;
     public static final int DIRECTION_LEFT = 0;
     public static final int DIRECTION_RIGHT = 1;
 
-    // endX:The dividing X between the content page and the menu page
+    /**
+     *  endX:The dividing X between the content page and the menu page
+     */
     private float endX = 800;
-    // point value when touch down
+    /**
+      *  point value when touch down
+      */
     private int lastDownX, lastDownY;
-    // distance of enable menu drag
+    /**
+     *   distance of enable menu drag
+     */
     private int mDragoffset;
     private int arcDrawY;
     private int statusHeight;
     private int mDirection;
-    // views which intercept touch events
+    /**
+     *   views which intercept touch events
+     */
     private List<View> mIgnores;
 
-    // if the content need dark effect
+    /**
+     *  if the content need dark effect
+     **/
     private boolean mNeedFade;
-    // check if user is in dragging
+    /**
+     * check if user is in dragging
+     */
     private boolean isDragging = false;
     private boolean isOpen;
-    // use to disable Bouncing when closing the menu
+    /**
+     *  use to disable Bouncing when closing the menu
+     */
     private boolean isBouncing;
     private boolean disableDrag;
-    // main controller of bouncing animate
+    /**
+     *  main controller of bouncing animate
+     */
     private Spring mSpring;
     private DisplayMetrics displayMetrics = new DisplayMetrics();
     private MenuView mMenuView;
     private ViewGroup mContent;
-    //Black mask View
+    /**
+     * Black mask View
+     */
     private View mFadeView;
     private ViewGroup mDecorView;
 
@@ -96,8 +116,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         Rect rect = new Rect();
         for (View v : mIgnores) {
             v.getGlobalVisibleRect(rect);
-            if (rect.contains((int) ev.getX(), (int) ev.getY()))
+            if (rect.contains((int) ev.getX(), (int) ev.getY())) {
                 return true;
+            }
         }
         return false;
     }
@@ -125,7 +146,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         if (!isOpen) {
             mSpring.setCurrentValue(nowValue >= 1f ? 0.99f : nowValue);
         } else {
-            mSpring.setCurrentValue(nowValue >= 1f ? 1.01f : 2f - nowValue);
+            mSpring.setCurrentValue(nowValue >= 1f ? 1.01f : END_VALUE - nowValue);
         }
     }
 
@@ -135,9 +156,9 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
      */
     private void resumeMenu() {
         if (!isOpen) {
-            mSpring.setEndValue(0f);
+            mSpring.setEndValue(START_VALUE);
         } else {
-            mSpring.setEndValue(2f);
+            mSpring.setEndValue(END_VALUE);
         }
     }
 
@@ -154,13 +175,13 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
 
     public void openMenu() {
         mMenuView.setDisableTouch(false);
-        mSpring.setEndValue(2f);
+        mSpring.setEndValue(END_VALUE);
         mMenuView.toggleItems(true);
     }
 
     public void closeMenu() {
         mMenuView.setDisableTouch(true);
-        mSpring.setEndValue(0f);
+        mSpring.setEndValue(START_VALUE);
         mMenuView.toggleItems(false);
     }
 
@@ -313,7 +334,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         float value = (float) spring.getCurrentValue();
         mMenuView.updateByProgress(value
         );
-        if (!isOpen && value >= 2f) {
+        if (!isOpen && value >= END_VALUE) {
             isOpen = true;
             if (menuListener != null) {
                 menuListener.onMenuOpen();
@@ -335,7 +356,10 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
             }
             if (!isOpen) {
                 //If touch down X is over Offset distance,It will interfere with the touch event of the menu
-                if ((mDirection == DIRECTION_RIGHT && lastDownX < getScreenWidth() - mDragoffset) || (mDirection == DIRECTION_LEFT && lastDownX > mDragoffset)) {
+                if (mDirection == DIRECTION_RIGHT && lastDownX < getScreenWidth() - mDragoffset) {
+                    return super.dispatchTouchEvent(ev);
+                }
+                else if(mDirection == DIRECTION_LEFT && lastDownX > mDragoffset){
                     return super.dispatchTouchEvent(ev);
                 }
             }
@@ -345,8 +369,13 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 lastDownX = (int) ev.getRawX();
                 lastDownY = (int) ev.getRawY();
                 disableDrag = isInIgnoredView(ev) && !isOpen;
-                if (isOpen && (mDirection == DIRECTION_LEFT && lastDownX > endX || lastDownX < getWidth() - endX && mDirection == DIRECTION_RIGHT)) {
-                    return true;
+                if (isOpen) {
+                    if(mDirection == DIRECTION_RIGHT&&lastDownX < getWidth() - endX) {
+                        return true;
+                    }
+                    else if(mDirection == DIRECTION_LEFT && lastDownX > endX ){
+                        return true;
+                    }
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -369,13 +398,18 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 break;
             case MotionEvent.ACTION_UP:
                 // When the menu is opened, the menu closes if the user touches the content page
-                if (!isDragging && isOpen && (mDirection == DIRECTION_LEFT && lastDownX > endX || lastDownX < getWidth() - endX && mDirection == DIRECTION_RIGHT)) {
-                    closeMenu();
+                if (!isDragging && isOpen) {
+                    if(mDirection == DIRECTION_LEFT && lastDownX > endX) {
+                        closeMenu();
+                    }
+                    else if(mDirection == DIRECTION_RIGHT&&lastDownX < getWidth() - endX){
+                        closeMenu();
+                    }
                 } else if (isDragging) {
                     if (!isOpen) {
                         if (mSpring.getCurrentValue() > 0.55f) {
                             openMenu();
-                        } else if (mSpring.getCurrentValue() > 0f) {
+                        } else if (mSpring.getCurrentValue() > START_VALUE) {
                             resumeMenu();
                         }
                     } else {
@@ -387,6 +421,8 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                     }
                 }
                 isDragging = false;
+                break;
+            default:
                 break;
         }
         return super.dispatchTouchEvent(ev);
@@ -410,7 +446,10 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
 
     private class MenuView extends FrameLayout {
         private Path mArcPath;
-        // when menu is open,the value is false,else true,use to Intercept menu Touch
+        /**
+         *  when menu is open,the value is false,
+         *  else true,use to Intercept menu Touch
+         */
         private boolean disableTouch = true;
 
         private ViewGroup mLayout;
@@ -431,19 +470,20 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
         class BgOutLineProvider extends ViewOutlineProvider {
             @Override
             public void getOutline(View view, Outline outline) {
-                if (mArcPath.isConvex())
+                if (mArcPath.isConvex()) {
                     outline.setConvexPath(mArcPath);
+                }
             }
         }
 
-        /*
-         * use to draw the Beckinsale curves when open menu (0f-2f)
-         */
+        /**
+          * use to draw the Beckinsale curves when open menu (0f-2f)
+          */
         private void updateByProgress(float progress) {
             mArcPath.reset();
             float startX = mDirection == DIRECTION_LEFT ? 0 : getWidth();
 
-            if (progress >= 0 && progress <= 2 && mNeedFade) {
+            if (progress >= START_VALUE && progress <= END_VALUE && mNeedFade) {
                 mFadeView.setAlpha(progress / 2);
             }
             if (progress >= 1f) {
@@ -454,14 +494,14 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX : startX - endX, arcDrawY == 0 ? getHeight() / 2 : arcDrawY, realX, getHeight());
                 mArcPath.lineTo(startX, getHeight());
                 mContent.setTranslationX(mDirection == DIRECTION_LEFT ? progressX : -progressX);
-                if (progress >= 2f) {
+                if (progress >= END_VALUE) {
                     isBouncing = true;
                 }
             } else {
                 mArcPath.moveTo(startX, 0);
                 if (isOpen) {
                     mArcPath.quadTo(mDirection == DIRECTION_LEFT ? endX * progress : getScreenWidth() - endX * progress, arcDrawY == 0 ? getHeight() / 2 : arcDrawY, startX, getHeight());
-                    if (progress <= 0f) {
+                    if (progress <= START_VALUE) {
                         isBouncing = true;
                     }
                     mContent.setTranslationX(0);
@@ -475,7 +515,7 @@ public class SpringMenu extends RelativeLayout implements SpringListener {
                 menuListener.onProgressUpdate(progress, isBouncing);
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (mSpring.getCurrentValue() <= 2f) {
+                if (mSpring.getCurrentValue() <= END_VALUE) {
                     invalidateOutline();
                 }
             }
